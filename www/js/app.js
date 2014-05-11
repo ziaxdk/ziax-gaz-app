@@ -19,7 +19,7 @@ angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.controllers', 'ziaxgazapp.ser
   function stopGps() {
     console.log('Stopping GPS');
     if (!watchId) return;
-    window.navigator.geolocation.clearWatch(geoWatchNumber);
+    window.navigator.geolocation.clearWatch(watchId);
     watchId = undefined;
   }
 
