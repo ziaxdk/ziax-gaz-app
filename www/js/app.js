@@ -7,6 +7,9 @@ angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.controllers', 'ziaxgazapp.ser
     if (watchId) return;
     watchId = window.navigator.geolocation.watchPosition(function(position) {
       console.log('Got position', position.coords);
+      $rootScope.$apply(function() {
+        $rootScope.position = position.coords;
+      });
     }, function(err) {
       alert(err);
     }, {
@@ -26,20 +29,21 @@ angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.controllers', 'ziaxgazapp.ser
 
   document.addEventListener("deviceready", function () {
     console.log('deviceready');
-
-
-    document.addEventListener("pause", function () {
-      console.log('Pause');
-      stopGps();
-    }, false);
-    document.addEventListener("resume", function () {
-      console.log('Resume');
-      startGps();
-    }, false);
     startGps();
   }, false);
 
 
+  document.addEventListener("pause", function () {
+    console.log('Pause');
+    stopGps();
+  }, false);
+  document.addEventListener("resume", function () {
+    console.log('Resume');
+    startGps();
+  }, false);
+  document.addEventListener("backbutton", function () {
+    console.log('backbutton');
+  }, false);
 
   function out() {
     console.log(arguments);
