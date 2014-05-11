@@ -6,7 +6,7 @@
         id        = "dk.ziax.gaz"
         version   = "1.0.0">
 
-    <name>Ziax gaz</name>
+    <name>GAZ</name>
 
     <description>
         Control your fuel expenses etc.
