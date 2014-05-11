@@ -3,11 +3,10 @@ angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.controllers', 'ziaxgazapp.ser
 .run(function($ionicPlatform, $rootScope, $state, $timeout, User) {
   var watchId;
   function startGps() {
-    alert('startGps1');
+    console.log('Starting GPS');
     if (watchId) return;
-    alert('startGps2');
     watchId = window.navigator.geolocation.watchPosition(function(position) {
-      if (console && console.log) console.log(position);
+      console.log('Got position', position.coords);
     }, function(err) {
       alert(err);
     }, {
@@ -18,14 +17,25 @@ angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.controllers', 'ziaxgazapp.ser
   }
 
   function stopGps() {
+    console.log('Stopping GPS');
     if (!watchId) return;
     window.navigator.geolocation.clearWatch(geoWatchNumber);
     watchId = undefined;
   }
 
 
-  document.addEventListener("pause", function () { stopGps(); }, false);
-  document.addEventListener("resume", function () { startGps(); }, false);
+  document.addEventListener("deviceready", function () {
+    console.log('deviceready');
+    startGps();
+  }, false);
+  document.addEventListener("pause", function () {
+    console.log('Pause');
+    stopGps();
+  }, false);
+  document.addEventListener("resume", function () {
+    console.log('Resume');
+    startGps();
+  }, false);
 
 
 
