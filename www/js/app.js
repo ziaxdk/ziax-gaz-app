@@ -26,14 +26,16 @@ angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.controllers', 'ziaxgazapp.ser
 
   document.addEventListener("deviceready", function () {
     console.log('deviceready');
-    startGps();
-  }, false);
-  document.addEventListener("pause", function () {
-    console.log('Pause');
-    stopGps();
-  }, false);
-  document.addEventListener("resume", function () {
-    console.log('Resume');
+
+
+    document.addEventListener("pause", function () {
+      console.log('Pause');
+      stopGps();
+    }, false);
+    document.addEventListener("resume", function () {
+      console.log('Resume');
+      startGps();
+    }, false);
     startGps();
   }, false);
 
