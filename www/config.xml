@@ -3,13 +3,13 @@
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "dk.detkøberjeg.www"
+        id        = "dk.ziax.gaz"
         version   = "1.0.0">
 
-    <name>Det køber jeg</name>
+    <name>Ziax gaz</name>
 
     <description>
-        App version af Det køber jeg
+        Control your fuel expenses etc.
     </description>
 
     <author href="http://www.ziax.dk" email="ziaxdk@gmail.com">
