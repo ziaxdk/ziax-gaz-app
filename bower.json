@@ -1,0 +1,18 @@
+{
+  "name": "ziax-gaz-app",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ziaxdk/detkoeberjeg.dk-app",
+  "authors": [
+    "ziax <ziaxdk@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "www/components"
+  ],
+  "dependencies": {
+    "ionic": "1.0.0-beta.4"
+  }
+}
