@@ -1,6 +1,31 @@
 angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.controllers', 'ziaxgazapp.services', 'ziaxgazapp.directives'])
 
-.run(function($ionicPlatform, $rootScope, $state, $timeout, User) {
+.run(function($ionicPlatform, $rootScope, $window, $document, $state, $timeout, User) {
+  var watchId = $window.navigator.geolocation.watchPosition(function(position) {
+    console.log(position);
+  }, function(err) { console.log('geo', err);},
+    {
+      maximumAge: 30,
+      timeout: 90000,
+      enableHighAccuracy: true
+  });
+
+
+  $ionicPlatform.registerBackButtonAction(function() {
+    alert('reg');
+
+  }, 10);
+
+  $document.addEventListener("pause", function () {
+    alert('pause');
+    if (watchId) {
+      watchId = undefined;
+      $window.navigator.geolocation.clearWatch(watchId);
+    }
+  }, false);
+
+
+
   function out() {
     console.log(arguments);
   }
