@@ -3,8 +3,10 @@ angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.controllers', 'ziaxgazapp.ser
 .run(function($ionicPlatform, $rootScope, $state, $timeout, User) {
   var watchId;
   function startGps() {
+    alert('startGps1');
     if (watchId) return;
-    watchId = navigator.geolocation.watchPosition(function(position) {
+    alert('startGps2');
+    watchId = window.navigator.geolocation.watchPosition(function(position) {
       if (console && console.log) console.log(position);
     }, function(err) {
       alert(err);
@@ -17,7 +19,7 @@ angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.controllers', 'ziaxgazapp.ser
 
   function stopGps() {
     if (!watchId) return;
-    navigator.geolocation.clearWatch(geoWatchNumber);
+    window.navigator.geolocation.clearWatch(geoWatchNumber);
     watchId = undefined;
   }
 
