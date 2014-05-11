@@ -1,14 +1,15 @@
 angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.controllers', 'ziaxgazapp.services', 'ziaxgazapp.directives'])
 
 .run(function($ionicPlatform, $rootScope, $state, $timeout, User) {
+  $rootScope.position = { hasFix: false };
   var watchId;
   function startGps() {
     console.log('Starting GPS');
     if (watchId) return;
     watchId = window.navigator.geolocation.watchPosition(function(position) {
       console.log('Got position', position.coords);
-      $rootScope.$apply(function() {
-        $rootScope.position = position.coords;
+      $rootScope.$evalAsync(function() {
+        angular.extend($rootScope.position, position.coords, { hasFix: true });
       });
     }, function(err) {
       alert(err);
