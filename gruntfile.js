@@ -1,49 +1,20 @@
 module.exports = function(grunt) {
   var path = require('path'),
-      mExpress = require('./lib/grunt/express.js')(grunt);
+      mExpress = require('./lib/grunt/express.js')(grunt),
+      mConcurrent = require('./lib/grunt/concurrent.js')(grunt),
+      mWatch = require('./lib/grunt/watch.js')(grunt),
+      mWeinre = require('./lib/grunt/weinre.js')(grunt);
 
 
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
-    weinre: {
-      dev: {
-      options: {
-          httpPort: 8082,
-          boundHost: '-all-'
-        }
-      }
-    },
-
-    concurrent: {
-      dev: {
-        // tasks: ['weinre', 'nodemon', 'node-inspector', 'watch'],
-        tasks: [ 'weinre:dev' ],
-        options: {
-          logConcurrentOutput: false
-        }
-      }
-    },
-
+    weinre: mWeinre,
+    concurrent: mConcurrent,
     express: mExpress,
-
-    watch: {
-      express: {
-        files:  [ 'server.js', 'server/**/*.js' ],
-        tasks:  [ 'express:dev' ],
-        options: {
-          nospawn: true //Without this option specified express won't be reloaded
-        }
-      }
-    }
-
+    watch: mWatch
   });
-
-  grunt.loadNpmTasks('grunt-concurrent');
-  grunt.loadNpmTasks('grunt-weinre');
-  grunt.loadNpmTasks('grunt-express-server');
-  grunt.loadNpmTasks('grunt-contrib-watch');
   
   grunt.registerTask('default', [ ]);
   grunt.registerTask('dev', [ 'express:dev', 'weinre:dev', 'watch' ]);

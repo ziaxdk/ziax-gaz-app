@@ -3,10 +3,24 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="has-header">
-  ziax
-  <p>Position:</p>
-  <div>
-  {{position}}
+  <pre>
+  Lat: {{position.latitude}}
+  Lon: {{position.longitude}}
+  </pre>
+
+  <div class="list">
+    <label class="item item-input">
+      <input type="text" placeholder="Purchase date">
+    </label>
+    <label class="item item-input">
+      <input type="text" placeholder="Odometer">
+    </label>
+    <label class="item item-input">
+      <input type="text" placeholder="Price">
+    </label>
+    <label class="item item-input">
+      <input type="text" placeholder="Units">
+    </label>
   </div>
 
 </ion-view>

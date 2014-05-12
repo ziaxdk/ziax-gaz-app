@@ -1,66 +1,34 @@
-angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.controllers', 'ziaxgazapp.services', 'ziaxgazapp.directives'])
+angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.providers', 'ziaxgazapp.controllers', 'ziaxgazapp.services', 'ziaxgazapp.directives'])
 
-.run(function($ionicPlatform, $rootScope, $state, $timeout, User) {
-  $rootScope.position = { hasFix: false };
-  var watchId;
-  function startGps() {
-    console.log('Starting GPS');
-    if (watchId) return;
-    watchId = window.navigator.geolocation.watchPosition(function(position) {
-      console.log('Got position', position.coords);
-      $rootScope.$evalAsync(function() {
-        angular.extend($rootScope.position, position.coords, { hasFix: true });
-      });
-    }, function(err) {
-      alert(err);
-    }, {
-      maximumAge: 10,
-      timeout: 90000,
-      enableHighAccuracy: true
-    });
-  }
+.run(['$ionicPlatform', '$rootScope', '$state', '$timeout', 'User', 'GPS',
+  function($ionicPlatform, $rootScope, $state, $timeout, User, GPS) {
 
-  function stopGps() {
-    console.log('Stopping GPS');
-    if (!watchId) return;
-    window.navigator.geolocation.clearWatch(watchId);
-    watchId = undefined;
-  }
+  $ionicPlatform.ready(function() {
+    console.log('ionicPlatform ready.');
+    if(window.StatusBar) {
+      StatusBar.styleDefault();
+    }
 
+    document.addEventListener("pause", function () {
+      console.log('Pause');
+      GPS.stopGps();
+    }, false);
+    document.addEventListener("resume", function () {
+      console.log('Resume');
+      GPS.startGps();
+    }, false);
+    document.addEventListener("backbutton", function () {
+      console.log('backbutton');
+    }, false);
+  });
+  GPS.startGps();
 
-  document.addEventListener("deviceready", function () {
-    console.log('deviceready');
-    startGps();
-  }, false);
-
-
-  document.addEventListener("pause", function () {
-    console.log('Pause');
-    stopGps();
-  }, false);
-  document.addEventListener("resume", function () {
-    console.log('Resume');
-    startGps();
-  }, false);
-  document.addEventListener("backbutton", function () {
-    console.log('backbutton');
-  }, false);
-
-  function out() {
-    console.log(arguments);
-  }
-
-  // $ionicPlatform.ready(function() {
-  //   if(window.StatusBar) {
-  //     StatusBar.styleDefault();
-  //   }
-  // });
 
   $rootScope.user = User.get();
 
-  $rootScope.$on('$stateChangeError', function() {
-    console.log('$stateChangeError', arguments);
-  });
+  // $rootScope.$on('$stateChangeError', function() {
+  //   console.log('$stateChangeError', arguments);
+  // });
 
   $rootScope.$on('$stateChangeStart', function(evt, toState, toParams, fromstate, fromParams) {
     if ($rootScope.user && toState.name == 'login') {
@@ -89,9 +57,12 @@ angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.controllers', 'ziaxgazapp.ser
       // }
     }
   };
-})
+}])
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(['$stateProvider', '$urlRouterProvider', 'GPSProvider',
+  function($stateProvider, $urlRouterProvider, GPSProvider) {
+
+    GPSProvider.rootScopeVariable('position');
   $stateProvider
 
     .state('login', {
@@ -138,7 +109,7 @@ angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.controllers', 'ziaxgazapp.ser
     });
 
   $urlRouterProvider.otherwise('/login');
-});
+}]);
 
 // document.addEventListener('deviceready', function () {
 //   angular.bootstrap(document.body, [ 'detkoeberjeg' ]);

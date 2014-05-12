@@ -4,7 +4,8 @@ angular.module('ziaxgazapp.controllers', ['ziaxgazapp.services'])
   $scope.user = {};
   $scope.signIn = function (user) {
     // console.log(user, $scope.user, $scope);
-    if (user.email === 'a' && user.password === 'a') {
+    if (user.email === '1' && user.password === '1') {
+      console.log('ok. Signing in');
       var theUser = User.create(user.email, user.password);
       User.store(theUser);
       $rootScope.user = theUser;
