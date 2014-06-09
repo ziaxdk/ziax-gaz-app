@@ -8,7 +8,9 @@ angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.providers', 'ziaxgazapp.contr
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
-
+    
+    window.navigator.notification.vibrate(500);
+    
     document.addEventListener("pause", function () {
       console.log('Pause');
       GPS.stopGps();
