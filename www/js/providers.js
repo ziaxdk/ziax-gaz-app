@@ -1,22 +1,26 @@
 angular.module('ziaxgazapp.providers', [])
 .provider('GPS', function() {
-  var _rootScopeName;
+  var _rootScopeName, _intervalMilli;
   
   this.rootScopeVariable = function(name) {
     _rootScopeName = name;
   },
-  
+  this.intervalVariable = function(value) {
+    _intervalMilli = value;
+  },
+
   this.$get = ['$rootScope', '$interval', function($rootScope, $interval) {
     var watchId,
         intervalId,
-        updated = false;
+        updated = false,
+        oldCoords;
 
 
     function startGps() {
       console.log('Starting GPS');
       if (watchId) return;
       $rootScope[_rootScopeName] = { hasFix: false };
-      intervalId = $interval(function() { updated = false; }, 5000);
+      intervalId = $interval(function() { updated = false; }, _intervalMilli || 5000);
 
       watchId = window.navigator.geolocation.watchPosition(function(position) {
         update(position.coords);
@@ -40,16 +44,22 @@ angular.module('ziaxgazapp.providers', [])
     }
 
     function update(coords) {
-      if (updated) return;
+      if (updated || (oldCoords && oldCoords.latitude == coords.latitude && oldCoords.longitude == coords.longitude)) return;
       console.log('Updated', coords);
       angular.extend($rootScope[_rootScopeName], coords, { hasFix: true });
       $rootScope.$apply();
       updated = true;
+      oldCoords = coords;
+    }
+
+    function reset() {
+      updated = false;
     }
 
     return {
       startGps: startGps,
-      stopGps: stopGps
+      stopGps: stopGps,
+      reset: reset
     };
   }];
 });

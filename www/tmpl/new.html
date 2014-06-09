@@ -3,23 +3,24 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="has-header">
-  <pre>
-  Lat: {{position.latitude}}
-  Lon: {{position.longitude}}
-  </pre>
-
   <div class="list">
     <label class="item item-input">
-      <input type="text" placeholder="Purchase date">
+      <select ng-model="form.vehicle" ng-options="vehicle.id as (vehicle.source.vendor + ' ' + vehicle.source.model) for vehicle in vehicles"></select>
     </label>
     <label class="item item-input">
-      <input type="text" placeholder="Odometer">
+      <input ng-model="form.purchaseDate" type="date" placeholder="Purchase date">
     </label>
     <label class="item item-input">
-      <input type="text" placeholder="Price">
+      <input type="number" placeholder="Odometer">
     </label>
     <label class="item item-input">
-      <input type="text" placeholder="Units">
+      <input type="number" placeholder="Price">
+    </label>
+    <label class="item item-input">
+      <input type="number" placeholder="Units">
+    </label>
+    <label class="item item-input">
+      <select ng-model="form.station" ng-options="station.id as station.display for station in stations"></select>
     </label>
   </div>
 

@@ -13,6 +13,6 @@
     "www/components"
   ],
   "dependencies": {
-    "ionic": "1.0.0-beta.4"
+    "ionic": "v1.0.0-beta.6"
   }
 }
