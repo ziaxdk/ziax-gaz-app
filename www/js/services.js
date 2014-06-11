@@ -56,7 +56,8 @@ angular.module('ziaxgazapp.services', [])
 // }])
 
 .service('Rest', ['$http', 'User', function($http, User) {
-  var _host = 'http://host.ziax.dk:8081/';
+  // var _host = 'http://host.ziax.dk:8081/';
+  var _host = 'http://s.ziax.dk/';
 
   this.testv4 = function() {
     return $http.post(_host + 'v4', { x: 1, y: 2 });
@@ -71,5 +72,8 @@ angular.module('ziaxgazapp.services', [])
   };
   this.stationsNear = function(lat, lon) {
     return $http.post(_host + 'api/stations_near', { lat: lat, lon: lon });
+  };
+  this.store = function(gaz) {
+    return $http.post(_host + 'api/document2', gaz);
   };
 }]);

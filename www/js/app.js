@@ -9,7 +9,7 @@ angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.providers', 'ziaxgazapp.contr
       StatusBar.styleDefault();
     }
     
-    window.navigator.notification.vibrate(500);
+    window.navigator.notification.vibrate(200);
     
     document.addEventListener("pause", function () {
       console.log('Pause');
