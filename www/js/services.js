@@ -55,9 +55,8 @@ angular.module('ziaxgazapp.services', [])
 //   };
 // }])
 
-.service('Rest', ['$http', 'User', function($http, User) {
-  // var _host = 'http://host.ziax.dk:8081/';
-  var _host = 'http://s.ziax.dk/';
+.service('Rest', ['$http', 'User', 'FINALS', function($http, User, FINALS) {
+  var _host = FINALS.host;
 
   this.testv4 = function() {
     return $http.post(_host + 'v4', { x: 1, y: 2 });
@@ -75,5 +74,13 @@ angular.module('ziaxgazapp.services', [])
   };
   this.store = function(gaz) {
     return $http.post(_host + 'api/document2', gaz);
+  };
+}])
+
+.service('Hardware', [function() {
+  this.vibrate = function(timeMs) {
+    if (window.navigator && window.navigator.notification && window.navigator.notification.vibrate) {
+      window.navigator.notification.vibrate(200);
+    }
   };
 }]);

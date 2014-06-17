@@ -6,3 +6,7 @@
   background-color: #4a87ee;
   color: white;
 }
+
+form.ngx-attempt .ng-invalid {
+  border-bottom: 1px solid red;
+}

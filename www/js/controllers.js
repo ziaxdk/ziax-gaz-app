@@ -12,7 +12,7 @@ angular.module('ziaxgazapp.controllers', ['ziaxgazapp.services'])
   };
 })
 
-.controller('NewCtrl', function($rootScope, $scope, $ionicModal, $filter, Rest) {
+.controller('NewCtrl', function($rootScope, $scope, $ionicModal, $filter, Rest, Hardware) {
   $scope.form = {
     purchaseDateUtc: $filter("date")(Date.now(), 'yyyy-MM-dd')
   };
@@ -34,9 +34,13 @@ angular.module('ziaxgazapp.controllers', ['ziaxgazapp.services'])
   }, true);
 
   $scope.submit = function() {
+    // if (!$scope.theForm.$valid) return;
     angular.extend($scope.form, { type: 'gaz', tags: [], onlyAuth: false });
 
-    Rest.store($scope.form);
+    // console.log($scope.form, $scope.theForm);
+    Rest.store($scope.form).then(function() {
+      Hardware.vibrate(500);
+    }, function() {});
   };
 })
 

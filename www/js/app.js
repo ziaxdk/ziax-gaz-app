@@ -1,7 +1,12 @@
-angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.providers', 'ziaxgazapp.controllers', 'ziaxgazapp.services', 'ziaxgazapp.directives'])
+angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.providers', 'ziaxgazapp.controllers', 'ziaxgazapp.services', 'ziaxgazapp.directives']).
 
-.run(['$ionicPlatform', '$rootScope', '$state', '$timeout', 'User', 'GPS',
-  function($ionicPlatform, $rootScope, $state, $timeout, User, GPS) {
+constant('FINALS', {
+  host: 'http://host.ziax.dk:8081/'
+  // host: 'http://s.ziax.dk/'
+})
+
+.run(['$ionicPlatform', '$rootScope', '$state', '$timeout', 'User', 'Hardware', 'GPS', 'FINALS',
+  function($ionicPlatform, $rootScope, $state, $timeout, User, Hardware, GPS, FINALS) {
 
   $ionicPlatform.ready(function() {
     console.log('ionicPlatform ready.');
@@ -9,7 +14,8 @@ angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.providers', 'ziaxgazapp.contr
       StatusBar.styleDefault();
     }
     
-    window.navigator.notification.vibrate(200);
+    console.log('Using host', FINALS.host);
+    Hardware.vibrate(200);
     
     document.addEventListener("pause", function () {
       console.log('Pause');
