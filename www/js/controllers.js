@@ -13,10 +13,11 @@ angular.module('ziaxgazapp.controllers', ['ziaxgazapp.services'])
 })
 
 .controller('NewCtrl', function($rootScope, $scope, $ionicModal, $filter, Rest, Hardware) {
-  $scope.form = {
-    purchaseDateUtc: $filter("date")(Date.now(), 'yyyy-MM-dd')
-  };
-  Rest.vehicles().success(function(data) { $scope.vehicles = data.hits.hits; $scope.form.vehicle = $scope.vehicles[0].id; }).error(function(err) { throw err; });
+  init();
+  Rest.vehicles().success(function(data) {
+    $scope.vehicles = data.hits.hits;
+    $scope.form.vehicle = $scope.vehicles[0].id;
+  }).error(function(err) { throw err; });
   $rootScope.$watch('position', function(v) {
     if (v.hasFix) {
       Rest.stationsNear(v.latitude, v.longitude)
@@ -33,15 +34,33 @@ angular.module('ziaxgazapp.controllers', ['ziaxgazapp.services'])
     }
   }, true);
 
+  console.log( angular.element($scope.theForm) );
+
   $scope.submit = function() {
-    // if (!$scope.theForm.$valid) return;
+    $scope.created = false;
+    $scope.failed = false;
+    if (!$scope.theForm.$valid) return;
     angular.extend($scope.form, { type: 'gaz', tags: [], onlyAuth: false });
 
     // console.log($scope.form, $scope.theForm);
     Rest.store($scope.form).then(function() {
       Hardware.vibrate(500);
-    }, function() {});
+      $scope.created = true;
+      init();
+      setDefaults();
+      $scope.theForm.$setPristine();
+    }, function() { $scope.failed = true; });
   };
+
+  function init() {
+    $scope.form = {
+      purchaseDateUtc: $filter("date")(Date.now(), 'yyyy-MM-dd')
+    };
+  }
+  function setDefaults() {
+    if ($scope.vehicles) $scope.form.vehicle = $scope.vehicles[0].id;
+    if ($scope.stations) $scope.form.station = $scope.stations[0].id;
+  }
 })
 
 .controller('LogoutCtrl', function($rootScope, $scope, $state, User) {

@@ -3,7 +3,7 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="has-header">
-  <form name="theForm" ng-controller="NewCtrl" ngx-submit="submit()" novalidate>
+  <form name="theForm" ng-controller="NewCtrl" ngx-submit="submit()" ngx-submit-clear="{{created}}" novalidate>
     <div class="list">
       <div class="item item-input item-select">
         <div class="input-label">Vehicle</div>
@@ -34,7 +34,9 @@
 
     </div>
     <div class="padding">
-      <button class="button button-block button-positive">Create</button>
+      <button class="button button-block" ng-class="{ 'button-positive': !created, 'button-balanced': created, 'button-assertive': failed }">
+        <i class="icon ion-ios7-plus-empty"></i> Create
+      </button>
     </div>
   </form>
 </ion-view>

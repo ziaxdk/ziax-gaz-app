@@ -30,6 +30,13 @@
 
   m.directive('ngxSubmit', ['$parse', function ($parse) {
     return function (scope, element, attr) {
+      attr.$observe('ngxSubmitClear', function(v) {
+        // console.log('v', v, '!', !v, '!!', !!v, typeof v, v == 'true');
+        if (v == 'true') {
+          element.removeClass('ngx-attempt');
+        }
+      });
+
       var fn = $parse(attr.ngxSubmit);
       element.on('submit', function (event) {
         element.addClass('ngx-attempt');
