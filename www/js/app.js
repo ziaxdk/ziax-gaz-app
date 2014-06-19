@@ -2,7 +2,7 @@ angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.providers', 'ziaxgazapp.contr
 
 constant('FINALS', {
   // host: 'http://host.ziax.dk:8081/'
-  host: 'http://s.ziax.dk/'
+  host: 'https://s.ziax.dk/'
 })
 
 .run(['$ionicPlatform', '$rootScope', '$state', '$timeout', 'User', 'Hardware', 'GPS', 'FINALS',
