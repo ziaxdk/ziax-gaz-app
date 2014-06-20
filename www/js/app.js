@@ -82,6 +82,7 @@ constant('FINALS', {
               url = config.url;
           if (u && (url.indexOf('/v4') !== -1 || url.indexOf('/api') !== -1)) {
             // console.log('YUP', config);
+            // console.log('YUP', { uid: u.id, hid: u.hid });
             config.params = angular.extend({}, config.params, { uid: u.id, hid: u.hid });
           }
           return config;
@@ -120,7 +121,19 @@ constant('FINALS', {
       views: {
         'menuContent' :{
           templateUrl: "tmpl/new.html",
-          controller: 'NewCtrl'
+          // controller: 'NewCtrl'
+        }
+      }
+    })
+    .state('app.history', {
+      url: "/history",
+      views: {
+        'menuContent' :{
+          templateUrl: "tmpl/history.html",
+          controller: 'HistoryCtrl',
+          resolve: {
+            Data: function(Rest) { return Rest.list(); }
+          }
         }
       }
     })

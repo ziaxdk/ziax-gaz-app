@@ -1,23 +1,35 @@
 angular.module('ziaxgazapp.controllers', ['ziaxgazapp.services'])
 
 .controller('LoginCtrl', function($rootScope, $scope, $location, $state, $ionicViewService, $timeout, User, Rest) {
+  // console.log('enter LoginCtrl');
   $scope.user = {};
   $scope.signIn = function (user) {
     Rest.authorize(user.email, user.password)
       .success(function(theUser) {
         User.store(theUser);
         $rootScope.user = theUser;
-        $state.go('app.new');
+        $state.go('app.new', {}, { notify: false });
       });
   };
 })
 
-.controller('NewCtrl', function($rootScope, $scope, $ionicModal, $filter, Rest, Hardware) {
+.controller('NewCtrl', function($rootScope, $scope, $ionicModal, $filter, Rest, Hardware, User) {
+  console.log('enter NewCtrl');
   init();
-  Rest.vehicles().success(function(data) {
-    $scope.vehicles = data.hits.hits;
-    $scope.form.vehicle = $scope.vehicles[0].id;
-  }).error(function(err) { throw err; });
+  // console.log(User.get());
+  // Rest.vehicles().success(function(data) {
+  //   $scope.vehicles = data.hits.hits;
+  //   $scope.form.vehicle = $scope.vehicles[0].id;
+  // }).error(function(err) { throw err; });
+
+  $scope.vehicles = User.get().vehicles;
+  $scope.form.vehicle = $scope.vehicles[0].id;
+  angular.forEach($scope.vehicles, function(v) {
+    if (v.id === User.get().vehicleDefault) {
+      $scope.form.vehicle = v.id;
+    }
+  });
+
   $rootScope.$watch('position', function(v) {
     if (v.hasFix) {
       Rest.stationsNear(v.latitude, v.longitude)
@@ -34,9 +46,11 @@ angular.module('ziaxgazapp.controllers', ['ziaxgazapp.services'])
     }
   }, true);
 
-  console.log( angular.element($scope.theForm) );
+  // console.log( angular.element($scope.theForm) );
 
   $scope.submit = function() {
+    // console.log('submit', $scope);
+    // return;
     $scope.created = false;
     $scope.failed = false;
     if (!$scope.theForm.$valid) return;
@@ -69,6 +83,25 @@ angular.module('ziaxgazapp.controllers', ['ziaxgazapp.services'])
   // // $rootScope.user = null;
   User.remove();
   $state.go('login');
+})
+
+.controller('HistoryCtrl', function($rootScope, $scope, User, Data, Rest) {
+  var offset = 0;
+  $scope.data = Data.data.hits.hits;
+  $scope.total = Data.data.hits.total;
+  // console.log(Data);
+
+  $scope.loadMore = function() {
+    offset += 10;
+    // console.log('offset now', offset);
+    Rest.list(offset).then(function(data) {
+      $scope.data = $scope.data.concat(data.data.hits.hits);
+      $scope.$broadcast('scroll.infiniteScrollComplete');
+      // console.log('offset', offset, 'scope data', $scope.data.length, 'data', data.data.hits.hits);
+    }, function(err) {
+      console.log('err', err);
+    });
+  };
 })
 
 .controller('SettingsCtrl', function($rootScope, $scope, User) {

@@ -23,38 +23,6 @@ angular.module('ziaxgazapp.services', [])
   };
 })
 
-
-// .service('GPSSer', [function() {
-//   var watchId, gpsCallback;
-//   this.startGps = function() {
-//     console.log('Starting GPS');
-//     if (watchId) return;
-//     watchId = window.navigator.geolocation.watchPosition(function(position) {
-//       console.log('Got position', position);
-//       if (!gpsCallback) return;
-//       gpsCallback(position.coords);
-//     }, function(err) {
-//       alert(err);
-//     }, {
-//       maximumAge: 10,
-//       timeout: 90000,
-//       enableHighAccuracy: true
-//     });
-//     console.log('GPS started', watchId);
-//   };
-
-//   this.stopGps = function() {
-//     console.log('Stopping GPS');
-//     if (!watchId) return;
-//     window.navigator.geolocation.clearWatch(watchId);
-//     watchId = undefined;
-//   };
-
-//   this.setCb = function(cb) {
-//     gpsCallback = cb;
-//   };
-// }])
-
 .service('Rest', ['$http', 'User', 'FINALS', function($http, User, FINALS) {
   var _host = FINALS.host;
 
@@ -75,6 +43,9 @@ angular.module('ziaxgazapp.services', [])
   this.store = function(gaz) {
     return $http.post(_host + 'api/document2', gaz);
   };
+  this.list = function(offset) {
+    return $http.get(_host + 'api/gaz/list', { params: { offset: offset } });
+  }
 }])
 
 .service('Hardware', [function() {

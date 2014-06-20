@@ -13,6 +13,7 @@
     "www/components"
   ],
   "dependencies": {
-    "ionic": "v1.0.0-beta.6"
+    "ionic": "v1.0.0-beta.6",
+    "lodash": "~2.4.1"
   }
 }
