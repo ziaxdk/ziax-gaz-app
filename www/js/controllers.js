@@ -8,7 +8,7 @@ angular.module('ziaxgazapp.controllers', ['ziaxgazapp.services'])
       .success(function(theUser) {
         User.store(theUser);
         $rootScope.user = theUser;
-        $state.go('app.new', {}, { notify: false });
+        $state.go('app.new', {}, { notify: true });
       });
   };
 })
