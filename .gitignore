@@ -1,5 +1,6 @@
 build/
 node_modules/
+www/bower_components/
 www/cordova.js
 www/phonegap.js
 www/debugdata.json
