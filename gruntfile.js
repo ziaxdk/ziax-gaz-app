@@ -8,7 +8,8 @@ module.exports = function(grunt) {
       mWeinre = require('./lib/grunt/weinre.js')(grunt),
       mCopy = require('./lib/grunt/copy.js')(grunt),
       mClean = require('./lib/grunt/clean.js')(grunt),
-      mHttp = require('./lib/grunt/http.js')(grunt);
+      mHttp = require('./lib/grunt/http.js')(grunt),
+      mNgConstant = require('./lib/grunt/ngconstant.js')(grunt);
 
   // Project configuration.
   grunt.initConfig({
@@ -21,24 +22,21 @@ module.exports = function(grunt) {
     concurrent: mConcurrent,
     express: mExpress,
     watch: mWatch,
-    http: mHttp
+    http: mHttp,
+    ngconstant: mNgConstant
 
   });
 
   grunt.registerTask('default', [ ]);
-  grunt.registerTask('dev', [ 'express:dev', 'weinre:dev', 'watch' ]);
+  grunt.registerTask('dev', [ 'ngconstant:dev', 'express:dev', 'weinre:dev', 'watch' ]);
   grunt.registerTask('build', [ 'clean:build', 'copy:build'  ]);
-  grunt.registerTask('prod', [ 'express:prod', 'weinre:dev', 'watch' ]);
+  grunt.registerTask('prod', [ 'ngconstant:prod', 'express:prod', 'weinre:dev', 'watch' ]);
   grunt.registerTask('deploy', [ 'build', 'gitcommit', 'http:buildphonegap' ]);
 
-  // $ curl -u andrew.lunny@nitobi.com -X POST -d '' https://build.phonegap.com/api/v1/apps/12/build
   grunt.registerTask('gitcommit', function () {
-    // buildno = shelljs.exec('git rev-parse --short HEAD', { silent: true }).output.replace('\n', '');
-    // grunt.log.writeln('build is', buildno);
-    // grunt.config('buildno', buildno);
     shelljs.cd('build');
     shelljs.exec('git add -A .');
-    shelljs.exec('git commit -m "wip"');
+    shelljs.exec('git commit -m "grunt build"');
     shelljs.exec('git push origin master');
   });
 
