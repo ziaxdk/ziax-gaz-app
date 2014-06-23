@@ -18,7 +18,9 @@
     "grunt-contrib-copy": "^0.5.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-express-server": "^0.4.13",
+    "grunt-http": "^1.4.0",
     "grunt-weinre": "0.0.2",
-    "ripple-emulator": "^0.9.22"
+    "ripple-emulator": "^0.9.22",
+    "shelljs": "^0.3.0"
   }
 }
