@@ -31,7 +31,7 @@ module.exports = function(grunt) {
   grunt.registerTask('dev', [ 'ngconstant:dev', 'express:dev', 'weinre:dev', 'watch' ]);
   grunt.registerTask('build', [ 'clean:build', 'copy:build'  ]);
   grunt.registerTask('prod', [ 'express:prod', 'weinre:dev', 'watch' ]);
-  grunt.registerTask('deploy', [ 'build', 'ngconstant:prod', 'gitcommit', 'http:buildphonegap' ]);
+  grunt.registerTask('deploy', [ 'build', 'ngconstant:prod', 'gitcommit', 'http:pulllatest' ]);
 
   grunt.registerTask('gitcommit', function () {
     shelljs.cd('build');
