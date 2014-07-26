@@ -13,9 +13,9 @@
     "www/components"
   ],
   "dependencies": {
-    "ionic": "v1.0.0-beta.8",
     "lodash": "~2.4.1",
     "angular-i18n": "~1.2.18",
-    "leaflet": "~0.7.3"
+    "leaflet": "~0.7.3",
+    "ionic": "1.0.0-beta.10"
   }
 }
