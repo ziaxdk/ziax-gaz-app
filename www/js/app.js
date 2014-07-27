@@ -1,4 +1,10 @@
-angular.module('ziaxgazapp', ['ionic', 'ziaxgazapp.providers', 'ziaxgazapp.controllers', 'ziaxgazapp.services', 'ziaxgazapp.directives', 'ziaxgazapp.constants'])
+angular.module('ziaxgazapp', [
+  'ionic',
+  'ziaxgazapp.providers',
+  'ziaxgazapp.controllers',
+  'ziaxgazapp.services',
+  'ziaxgazapp.directives',
+  'ziaxgazapp.constants'])
 
 .run(['$ionicPlatform', '$rootScope', '$state', '$timeout', 'User', 'Hardware', 'GPS', 'FINALS',
   function($ionicPlatform, $rootScope, $state, $timeout, User, Hardware, GPS, FINALS) {
