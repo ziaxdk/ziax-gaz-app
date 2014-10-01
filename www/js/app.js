@@ -8,15 +8,25 @@ angular.module('ziaxgazapp', [
 
 .run(['$ionicPlatform', '$rootScope', '$state', '$timeout', 'User', 'Hardware', 'GPS', 'FINALS',
   function($ionicPlatform, $rootScope, $state, $timeout, User, Hardware, GPS, FINALS) {
+  var safeFn = function(fn) {
+    try {
+      fn();
+    }
+    catch(e) {
+      // alert(e.message);
+      console.log('safe', e.message);
+    }
+  };
+
 
   $ionicPlatform.ready(function() {
-    console.log('ionicPlatform ready.');
-    if(window.StatusBar) {
-      StatusBar.styleDefault();
-    }
+    safeFn(function() { navigator.vibrate(500); });
+    safeFn(function() { StatusBar.overlaysWebView(true); StatusBar.styleDefault(); StatusBar.show(); });
+
+    GPS.reset();
+    GPS.startGps();
     
     console.log('Using host', FINALS.host);
-    Hardware.vibrate(200);
     
     document.addEventListener("pause", function () {
       console.log('Pause');
@@ -30,10 +40,8 @@ angular.module('ziaxgazapp', [
     document.addEventListener("backbutton", function () {
       console.log('backbutton');
     }, false);
+    // alert('completed');
   });
-  GPS.reset();
-  GPS.startGps();
-
   $rootScope.user = User.get();
 
   // $rootScope.$on('$stateChangeError', function() {
